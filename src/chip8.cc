@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "chip8.h"
 #include "defs.h"
@@ -33,20 +34,20 @@ void init_chip8(struct chip8_t *chip8)
         chip8->delay_timer = 0;
         chip8->sound_timer = 0;
 
-        /* Clear registers, stack and keys */
-        for (int i = 0; i < 16; ++i) {
-                chip8->stack[i] = 0;
-                chip8->V[i] = 0;
-                chip8->keys[i] = 0;
-        }
+        /* Clear data registers */
+        memset(chip8->V, 0, sizeof(chip8->V));
+
+        /* Clear stack */
+        memset(chip8->stack, 0, sizeof(chip8->stack));
+
+        /* Clear keys */
+        memset(chip8->keys, 0, sizeof(chip8->keys));
 
         /* Clear screen */
-        for (int i = 0; i < 64 * 32; ++i)
-                chip8->display[i] = 0;
+        memset(chip8->display, 0, sizeof(chip8->display));
 
         /* Clear memory */
-        for (int i = 0; i < 4096; ++i)
-                chip8->mem[i] = 0;
+        memset(chip8->mem, 0, sizeof(chip8->mem));
 
         /* Load font set into memory */
         for (int i = 0; i < 16 * 5; ++i)
