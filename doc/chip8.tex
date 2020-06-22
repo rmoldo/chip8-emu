@@ -1,0 +1,46 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[a4paper, top = 2.54cm,
+bottom = 2.54cm,
+left = 2.54cm,
+right = 2.54cm]{geometry}
+
+\lstset {
+  backgroundcolor=\color{white},
+  language=C++,
+  tabsize=8,
+  frame=single,
+  numbers=left,
+  showstringspaces=false
+}
+
+\title{CHIP-8 Interpretor using C}
+\date{June, 2020}
+\author{Radu Constantin Moldovan}
+\begin{document}
+
+\maketitle
+
+% Header
+\newcommand{\CHeader}{
+  \pagestyle{fancy}
+  \fancyhf{}
+  \lhead{CHIP-8 Interpretor}
+  \rhead{Radu Constantin Moldovan}
+  \fancyfoot[C]{\thepage}
+}
+
+\newpage
+
+\CHeader
+\tableofcontents{}
+
+\newpage
+
+\end{document}
