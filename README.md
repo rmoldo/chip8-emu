@@ -1,1 +1,1 @@
-# chip8-terp
+# chip8-emu
