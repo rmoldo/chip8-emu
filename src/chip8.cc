@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "chip8.h"
 #include "defs.h"
@@ -54,6 +55,9 @@ void init_chip8(struct chip8_t *chip8)
         /* Load font set into memory */
         for (int i = 0; i < 16 * 5; ++i)
                 chip8->mem[i] = fontset[i];
+
+        /* Random seed */
+        srand(time(NULL));
 }
 
 int load_rom_into_memory(struct chip8_t *chip8, const char *path)
@@ -259,7 +263,6 @@ void op_8xy5(struct chip8_t *chip8, u16 opcode)
 void op_8xy6(struct chip8_t *chip8, u16 opcode)
 {
         u8 x = (opcode & 0x0f00) >> 8;
-        u8 y = (opcode & 0x00f0) >> 4;
 
         chip8->V[0xf] = chip8->V[x] & 0x01;
 
@@ -306,9 +309,54 @@ void op_annn(struct chip8_t *chip8, u16 opcode)
 }
 
 /* JP V0, addr: Jump to location nnn + V0 */
-void op_annn(struct chip8_t *chip8, u16 opcode)
+void op_bnnn(struct chip8_t *chip8, u16 opcode)
 {
         u16 nnn = opcode & 0x0fff;
 
         chip8->ip = nnn + chip8->V[0];
+}
+
+/* RAND Vx, byte: Set Vx = random byte AND kk */
+void op_cxkk(struct chip8_t *chip8, u16 opcode)
+{
+        u8 kk = opcode & 0x00ff;
+        u8 x = (opcode & 0x0f00) >> 8;
+
+        chip8->V[x] = (u8)(rand() % 256) & kk;
+}
+
+/*
+  DRW Vx, Vy, nibble: Display n-byte sprite starting at memory location I at (Vx, Vy), set Vf = collision.
+  The interpreter reads n bytes from memory, starting at the address stored in I. These bytes are then displayed as
+  sprites on screen at coordinates (Vx, Vy). Sprites are XORed onto the existing screen. If this causes any pixels
+  to be erased, VF is set to 1, otherwise it is set to 0. If the sprite is positioned so part of it is outside the
+  coordinates of the display, it wraps around to the opposite side of the screen.
+ */
+void op_dxyn(struct chip8_t *chip8, u16 opcode)
+{
+        u8 x = (opcode & 0x0f00) >> 8;
+        u8 y = (opcode & 0x00f0) >> 4;
+        u8 n = opcode & 0x000f;
+
+        /* Wrap around */
+        u8 xpos = chip8->V[x] % WIDTH;
+        u8 ypos = chip8->V[y] % HEIGHT;
+
+        /* Set Vf to collision */
+        chip8->V[0xf] = 0;
+
+        for (int row = 0; row < n; ++row) {
+                u8 sprite = chip8->mem[chip8->I + row];
+                for (int col = 0; col < 8; ++col) {
+                        u8 spritePixel = sprite & (0x80 >> col);
+                        u8 *screenPixel = &chip8->display[(ypos + row) * WIDTH + (xpos + col)];
+
+                        if (spritePixel) {
+                                /* If the screen pixel is also on then collision occured */
+                                if (*screenPixel == 0xff)
+                                        chip8->V[0xf] = 1;
+                                *screenPixel ^= 0xff;
+                        }
+                }
+        }
 }
