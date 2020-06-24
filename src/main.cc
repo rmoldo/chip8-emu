@@ -18,7 +18,6 @@ int main(int argc, char **argv)
                 return EXIT_FAILURE;
         }
 
-
         struct chip8_t chip8;
 
         init_chip8(&chip8);

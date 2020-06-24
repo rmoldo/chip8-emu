@@ -9,4 +9,7 @@ enum SCREEN {
         HEIGHT = 512
 };
 
+#define FONT_SIZE 80
+#define START_ADDRESS 0x200
+
 #endif
