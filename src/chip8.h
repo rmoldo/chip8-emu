@@ -23,6 +23,8 @@ struct chip8_t {
 
 void init_chip8(struct chip8_t *chip8);
 void chip8_cycle(struct chip8_t *chip8);
+void assign_function_pointers();
+void handle_function_pointers(u16 opcode);
 
 int load_rom_into_memory(struct chip8_t *chip8, const char *path);
 
