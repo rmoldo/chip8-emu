@@ -19,6 +19,8 @@ struct chip8_t {
 
         u8 display[64 * 32];
         u8 keys[16];
+
+        u8 draw_flag;
 };
 
 void init_chip8(struct chip8_t *chip8);

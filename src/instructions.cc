@@ -9,6 +9,7 @@
 void op_00e0(struct chip8_t *chip8, u16 opcode)
 {
         memset(chip8->display, 0, sizeof(chip8->display));
+        chip8->draw_flag = 1;
 }
 
 /* Return from subroutine */
@@ -240,6 +241,8 @@ void op_dxyn(struct chip8_t *chip8, u16 opcode)
                         }
                 }
         }
+
+        chip8->draw_flag = 1;
 }
 
 /* SKP Vx: Skip next instruction if key with the value of Vx is pressed */

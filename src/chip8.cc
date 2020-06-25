@@ -37,6 +37,7 @@ void init_chip8(struct chip8_t *chip8)
         chip8->sp = 0;
         chip8->delay_timer = 0;
         chip8->sound_timer = 0;
+        chip8->draw_flag = 0;
 
         /* Clear data registers */
         memset(chip8->V, 0, sizeof(chip8->V));
@@ -129,7 +130,7 @@ void chip8_cycle(struct chip8_t *chip8)
                 chip8->sound_timer--;
 }
 
-/* Assign unique operations at their indexes in function pointer array */
+/* Assign singular operations at their indexes in the function pointer array */
 void assign_function_pointers()
 {
         fpoint[1] = op_1nnn;
