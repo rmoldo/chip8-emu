@@ -216,28 +216,26 @@ void op_cxkk(struct chip8_t *chip8, u16 opcode)
  */
 void op_dxyn(struct chip8_t *chip8, u16 opcode)
 {
-        u8 x = (opcode & 0x0f00) >> 8;
-        u8 y = (opcode & 0x00f0) >> 4;
-        u8 n = opcode & 0x000f;
-
-        /* Wrap around */
-        u8 xpos = chip8->V[x] % WIDTH;
-        u8 ypos = chip8->V[y] % HEIGHT;
+        u8 x = chip8->V[(opcode & 0x0f00) >> 8];
+        u8 y = chip8->V[(opcode & 0x00f0) >> 4];
+        u8 height = opcode & 0x000f;
 
         /* Set Vf to collision */
         chip8->V[0xf] = 0;
 
-        for (int row = 0; row < n; ++row) {
-                u8 sprite = chip8->mem[chip8->I + row];
-                for (int col = 0; col < 8; ++col) {
+        for (int col = 0; col < height; ++col) {
+                u8 sprite = chip8->mem[chip8->I + col];
+                for (int row = 0; row < 8; ++row) {
                         u8 spritePixel = sprite & (0x80 >> col);
-                        u8 *screenPixel = &chip8->display[(ypos + row) * WIDTH + (xpos + col)];
+
+                        u8 *screenPixel = &chip8->display[x + row + (y + col) * 64];
 
                         if (spritePixel) {
                                 /* If the screen pixel is also on then collision occured */
-                                if (*screenPixel == 0xff)
+                                if (*screenPixel == 1)
                                         chip8->V[0xf] = 1;
-                                *screenPixel ^= 0xff;
+
+                                *screenPixel ^= 1;
                         }
                 }
         }
@@ -276,7 +274,6 @@ void op_fx0a(struct chip8_t *chip8, u16 opcode)
 {
         u8 x = (opcode & 0x0f00) >> 8;
         int pressed = 0;
-
 
         for (int i = 0; i < 16; ++i)
                 if (chip8->keys[i]) {

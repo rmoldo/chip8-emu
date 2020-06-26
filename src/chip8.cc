@@ -39,19 +39,11 @@ void init_chip8(struct chip8_t *chip8)
         chip8->sound_timer = 0;
         chip8->draw_flag = 0;
 
-        /* Clear data registers */
+        /* Clear data registers, stack, keys, display and memory */
         memset(chip8->V, 0, sizeof(chip8->V));
-
-        /* Clear stack */
         memset(chip8->stack, 0, sizeof(chip8->stack));
-
-        /* Clear keys */
         memset(chip8->keys, 0, sizeof(chip8->keys));
-
-        /* Clear display */
         memset(chip8->display, 0, sizeof(chip8->display));
-
-        /* Clear memory */
         memset(chip8->mem, 0, sizeof(chip8->mem));
 
         /* Load font set into memory */
@@ -112,7 +104,7 @@ int load_rom_into_memory(struct chip8_t *chip8, const char *path)
 void chip8_cycle(struct chip8_t *chip8)
 {
         /* Fetch */
-        u16 opcode = (chip8->mem[chip8->ip] << 8u) | chip8->mem[chip8->ip + 1];
+        u16 opcode = (chip8->mem[chip8->ip] << 8) | chip8->mem[chip8->ip + 1];
 
         /* Point to the next instruction */
         chip8->ip += 2;

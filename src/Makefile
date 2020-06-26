@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wshadow -pedantic -O2
+CFLAGS = -Wall -Wshadow -pedantic -O2 -g
 OBJDIR    =   objdir
 OBJ       =   $(addprefix $(OBJDIR)/, $(patsubst %.cc, %.o, $(wildcard *.cc)))
 TARGET    =   chip8
