@@ -1,7 +1,7 @@
-CC = g++
+CC = gcc
 CFLAGS = -Wall -Wshadow -pedantic -O2 -g
 OBJDIR    =   objdir
-OBJ       =   $(addprefix $(OBJDIR)/, $(patsubst %.cc, %.o, $(wildcard *.cc)))
+OBJ       =   $(addprefix $(OBJDIR)/, $(patsubst %.c, %.o, $(wildcard *.c)))
 TARGET    =   chip8
 
 .PHONY: all clean
@@ -11,7 +11,7 @@ all: $(OBJDIR) $(TARGET)
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-$(OBJDIR)/%.o: %.cc
+$(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(TARGET): $(OBJ)
