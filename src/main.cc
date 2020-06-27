@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <iostream>
-#include <thread>
+#include <unistd.h>
 
 #include "chip8.h"
 #include "defs.h"
@@ -50,7 +49,6 @@ int main(int argc, char **argv)
         }
 
         SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-        SDL_RenderSetLogicalSize(renderer, WIDTH, HEIGHT);
 
         if (renderer == NULL) {
                 SDL_DestroyWindow(window);
@@ -69,13 +67,11 @@ int main(int argc, char **argv)
         while (is_running) {
                 chip8_cycle(&chip8);
 
-                // Process SDL events
                 SDL_Event e;
                 while (SDL_PollEvent(&e)) {
                         if (e.type == SDL_QUIT)
                                 is_running = 0;
 
-                        // Process keydown events
                         if (e.type == SDL_KEYDOWN) {
                                 if (e.key.keysym.sym == SDLK_ESCAPE)
                                         is_running = 0;
@@ -85,7 +81,7 @@ int main(int argc, char **argv)
                                                 chip8.keys[i] = 1;
                                 }
                         }
-                        // Process keyup events
+
                         if (e.type == SDL_KEYUP) {
                                 for (int i = 0; i < 16; ++i) {
                                         if (e.key.keysym.sym == keymap[i])
@@ -94,15 +90,13 @@ int main(int argc, char **argv)
                         }
                 }
 
-                // If draw occurred, redraw SDL screen
+                /* If draw occurred, redraw screen */
                 if (chip8.draw_flag) {
                         chip8.draw_flag = 0;
 
-                        // Store pixels in temporary buffer
-
                         for (int i = 0; i < 2048; ++i) {
                                 u8 pixel = chip8.display[i];
-                                pixels[i] = (0x00FFFFFF * pixel) | 0xFF000000;
+                                pixels[i] = (pixel == 0) ? 0 : 0xffffffff;
                         }
 
                         SDL_UpdateTexture(texture, NULL, pixels, 64 * sizeof(u32));
@@ -111,8 +105,7 @@ int main(int argc, char **argv)
                         SDL_RenderPresent(renderer);
                 }
 
-                // Sleep to slow down emulation speed
-                std::this_thread::sleep_for(std::chrono::microseconds(1200));
+                usleep(1200);
         }
 
         SDL_DestroyTexture(texture);
