@@ -103,7 +103,7 @@ int load_rom_into_memory(struct chip8_t *chip8, const char *path)
 
 void chip8_cycle(struct chip8_t *chip8)
 {
-        /* Fetch */
+        /* Fetch instruction */
         u16 opcode = (chip8->mem[chip8->ip] << 8) | chip8->mem[chip8->ip + 1];
 
         /* Point to the next instruction */

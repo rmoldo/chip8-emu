@@ -105,6 +105,7 @@ int main(int argc, char **argv)
                         SDL_RenderPresent(renderer);
                 }
 
+                /* Sleep for 1200 us */
                 usleep(1200);
         }
 
