@@ -226,7 +226,7 @@ void op_dxyn(struct chip8_t *chip8, u16 opcode)
         for (int col = 0; col < height; ++col) {
                 u8 sprite = chip8->mem[chip8->I + col];
                 for (int row = 0; row < 8; ++row) {
-                        u8 spritePixel = sprite & (0x80 >> col);
+                        u8 spritePixel = sprite & (0x80 >> row);
 
                         u8 *screenPixel = &chip8->display[x + row + (y + col) * 64];
 
