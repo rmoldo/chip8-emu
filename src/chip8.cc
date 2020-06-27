@@ -47,7 +47,7 @@ void init_chip8(struct chip8_t *chip8)
         memset(chip8->mem, 0, sizeof(chip8->mem));
 
         /* Load font set into memory */
-        for (int i = 0; i < 16 * 5; ++i)
+        for (int i = 0; i < FONT_SIZE; ++i)
                 chip8->mem[i] = fontset[i];
 
         /* Random seed */
