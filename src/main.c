@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <unistd.h>
+#include <time.h>
 
 #include "chip8.h"
 #include "defs.h"
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
         printf("INIT EMULATOR for ROM %s\n", argv[1]);
         if (SDL_Init(SDL_INIT_VIDEO)) {
-                fprintf(stderr, "Could not initialize sdl2: %s\n", SDL_GetError());
+                fprintf(stderr, "Could not initialize SDL2: %s\n", SDL_GetError());
                 return EXIT_FAILURE;
         }
 
@@ -62,6 +62,9 @@ int main(int argc, char **argv)
                                                  64, 32);
 
         u32 pixels[64 * 32];
+
+        struct timespec stime;
+        stime.tv_nsec = 1200000;
 
         int is_running = 1;
         while (is_running) {
@@ -106,7 +109,7 @@ int main(int argc, char **argv)
                 }
 
                 /* Sleep for 1200 us */
-                usleep(1200);
+                nanosleep(&stime, NULL);
         }
 
         SDL_DestroyTexture(texture);
