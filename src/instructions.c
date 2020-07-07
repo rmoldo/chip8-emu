@@ -22,7 +22,7 @@ void op_00ee(struct chip8_t *chip8, u16 opcode)
 /* Jump to location nnn */
 void op_1nnn(struct chip8_t *chip8, u16 opcode)
 {
-        chip8->ip = (opcode & 0x0fff);
+        chip8->ip = opcode & 0x0fff;
 }
 
 /* Call subroutine at nnn */
@@ -32,7 +32,7 @@ void op_2nnn(struct chip8_t *chip8, u16 opcode)
         chip8->stack[chip8->sp] = chip8->ip;
         chip8->sp++;
 
-        chip8->ip = (opcode & 0x0fff);
+        chip8->ip = opcode & 0x0fff;
 }
 
 /* Skip next instruction if Vx = kk */
