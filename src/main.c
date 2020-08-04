@@ -29,8 +29,10 @@ int main(int argc, char **argv)
 
         init_chip8(&chip8);
 
-        if(load_rom_into_memory(&chip8, argv[1]) != 1)
+        if(load_rom_into_memory(&chip8, argv[1]) != 1) {
+                fprintf(stderr, "Could not load rom file\n");
                 return EXIT_FAILURE;
+        }
 
         printf("INIT EMULATOR for ROM %s\n", argv[1]);
         if (SDL_Init(SDL_INIT_VIDEO)) {

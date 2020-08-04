@@ -12,5 +12,6 @@ enum SCREEN {
 
 #define FONT_SIZE 80
 #define START_ADDRESS 0x200
+#define AVAILABLE_SPACE 3584
 
 #endif
