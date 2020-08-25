@@ -1,7 +1,15 @@
 * CHIP-8 Emulator written in C
 ** What is CHIP-8
 CHIP-8 is a interpreted programming language which was first used for DIY computer systems in the late 1970s and early
-1980s. 
+1980s. Fifteen years after CHIP-8 was introduced, the language was revived by Andreas Gustafsson, who created a CHIP-8
+interpreter for the HP48 graphing calculator.
+*** CHIP-8 specifications
+- 4KB RAM from location 0x000 to location 0xfff.
+- 16 general 8-bit registers, usually refered to as Vx, where x is a hexadecimal digit (0 through F).
+- I register: 16-bit register used to store memory addresses, so only the lowest 12 bits are usually used.
+- 2 special purpose 8-bit registers for delay and sound timers.
+- IP, SP 8-bit registers
+- 64x32-pixel monochrome display
 
 ** Dependencies
 For Debian-based sistems:
@@ -18,3 +26,9 @@ $ sudo make install
 #+END_SRC
 
 ** Running
+In order to run the emulator you have to provide a CHIP-8 rom file. You can find CHIP-8 rom files in the `rom` folder
+or on the internet:
+
+#+BEGIN_SRC
+$ chip8 UFO
+#+END_SRC
