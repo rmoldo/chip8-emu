@@ -35,6 +35,7 @@ int main(int argc, char **argv)
         }
 
         printf("INIT EMULATOR for ROM %s\n", argv[1]);
+
         if (SDL_Init(SDL_INIT_VIDEO)) {
                 fprintf(stderr, "Could not initialize SDL2: %s\n", SDL_GetError());
                 return EXIT_FAILURE;
