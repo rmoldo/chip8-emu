@@ -26,7 +26,7 @@ $ sudo make install
 #+END_SRC
 
 ** Running
-In order to run the emulator you have to provide a CHIP-8 rom file. You can find CHIP-8 rom files in the `rom` folder
+In order to run the emulator you have to provide a CHIP-8 rom file. You can find CHIP-8 rom files in the ~rom~ folder
 or on the internet:
 
 #+BEGIN_SRC
