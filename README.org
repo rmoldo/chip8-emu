@@ -8,3 +8,13 @@ For Debian-based sistems:
   - make
   - gcc
   - libsdl2-dev
+
+** Building from source
+Clone the repository and go into the folder. There, run the following commands:
+
+#+BEGIN_SRC
+$ make -j$(nproc)
+$ sudo make install
+#+END_SRC
+
+** Running
